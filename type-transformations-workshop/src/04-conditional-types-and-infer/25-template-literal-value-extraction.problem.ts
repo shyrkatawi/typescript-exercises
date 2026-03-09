@@ -1,4 +1,4 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import {Equal, Expect} from "../helpers/type-utils";
 
 type Names = [
   "Matt Pocock",
@@ -8,7 +8,7 @@ type Names = [
   "BB King",
 ];
 
-type GetSurname<T> = unknown;
+type GetSurname<T> = T extends `${infer _Name} ${infer Surname}` ? Surname : never;
 
 type tests = [
   Expect<Equal<GetSurname<Names[0]>, "Pocock">>,

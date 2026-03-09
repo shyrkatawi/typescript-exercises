@@ -1,4 +1,4 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import {Equal, Expect} from "../helpers/type-utils";
 
 interface MyComplexInterface<Event, Context, Name, Point> {
   getEvent: () => Event;
@@ -14,6 +14,11 @@ type Example = MyComplexInterface<
   { x: 12; y: 14 }
 >;
 
-type GetPoint<T> = unknown;
+type GetPoint1<T> = T extends { getPoint: () => infer R } ? R : never;
 
-type tests = [Expect<Equal<GetPoint<Example>, { x: 12; y: 14 }>>];
+type GetPoint2<T> = T extends MyComplexInterface<any, any, any, infer R> ? R : never;
+
+type tests = [
+  Expect<Equal<GetPoint1<Example>, { x: 12; y: 14 }>>,
+  Expect<Equal<GetPoint2<Example>, { x: 12; y: 14 }>>
+];
