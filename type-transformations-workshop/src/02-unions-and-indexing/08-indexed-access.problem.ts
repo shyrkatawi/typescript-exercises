@@ -1,6 +1,6 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const fakeDataDefaults = {
+const fakeDataDefaults = {
   String: "Default string",
   Int: 1,
   Float: 1.14,
@@ -8,11 +8,15 @@ export const fakeDataDefaults = {
   ID: "id",
 };
 
-export type StringType = unknown;
-export type IntType = unknown;
-export type FloatType = unknown;
-export type BooleanType = unknown;
-export type IDType = unknown;
+type FakeData = typeof fakeDataDefaults
+
+type GetTypeOfKey<T extends object, K extends keyof T> = T[K]
+
+type StringType = GetTypeOfKey<FakeData, 'String'>;
+type IntType = GetTypeOfKey<FakeData, 'Int'>
+type FloatType = GetTypeOfKey<FakeData, 'Float'>
+type BooleanType = GetTypeOfKey<FakeData, 'Boolean'>
+type IDType = GetTypeOfKey<FakeData, 'ID'>
 
 type tests = [
   Expect<Equal<StringType, string>>,

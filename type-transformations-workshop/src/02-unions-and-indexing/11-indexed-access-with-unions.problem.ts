@@ -1,6 +1,6 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import {Equal, Expect} from "../helpers/type-utils";
 
-export const programModeEnumMap = {
+const programModeEnumMap = {
   GROUP: "group",
   ANNOUNCEMENT: "announcement",
   ONE_ON_ONE: "1on1",
@@ -9,7 +9,13 @@ export const programModeEnumMap = {
   PLANNED_SELF_DIRECTED: "plannedSelfDirected",
 } as const;
 
-export type IndividualProgram = unknown;
+
+type IndividualProgram = typeof programModeEnumMap[
+  | 'ONE_ON_ONE'
+  | 'SELF_DIRECTED'
+  | 'PLANNED_ONE_ON_ONE'
+  | 'PLANNED_SELF_DIRECTED'
+];
 
 type tests = [
   Expect<
