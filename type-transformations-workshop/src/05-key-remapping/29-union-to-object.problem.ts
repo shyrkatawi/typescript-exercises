@@ -1,8 +1,8 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import {Equal, Expect} from "../helpers/type-utils";
 
 type Route = "/" | "/about" | "/admin" | "/admin/users";
 
-type RoutesObject = unknown;
+type RoutesObject = { [K in Route]: K };
 
 type tests = [
   Expect<
