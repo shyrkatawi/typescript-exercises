@@ -1,18 +1,20 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import {Equal, Expect} from "../helpers/type-utils";
 
 type Route =
   | {
-      route: "/";
-      search: {
-        page: string;
-        perPage: string;
-      };
-    }
+  route: "/";
+  search: {
+    page: string;
+    perPage: string;
+  };
+}
   | { route: "/about" }
   | { route: "/admin" }
   | { route: "/admin/users" };
 
-type RoutesObject = unknown;
+type RoutesObject = {
+  [K in Route as K['route']]: K extends { search: infer Search } ? Search : never
+};
 
 type tests = [
   Expect<
