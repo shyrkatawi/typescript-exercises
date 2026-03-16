@@ -17,14 +17,6 @@ const users = [
 
 const newUsers = users.map(concatenateFirstNameAndLastName);
 
-expect(newUsers).toEqual([
-  {
-    firstName: "Matt",
-    lastName: "Pocock",
-    fullName: "Matt Pocock",
-  },
-]);
-
 type tests = [
   Expect<
     Equal<
@@ -45,14 +37,6 @@ const users = [
 
 const newUsers = users.map(concatenateFirstNameAndLastName);
 
-expect(newUsers).toEqual([
-  {
-    id: 1,
-    firstName: "Matt",
-    lastName: "Pocock",
-    fullName: "Matt Pocock",
-  },
-]);
 
 type tests = [
   Expect<

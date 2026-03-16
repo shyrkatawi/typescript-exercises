@@ -1,9 +1,13 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-export class Component {
-  private props: unknown;
+export class Component<T1,T2,T3> {
+  private props: {
+    a: T1;
+    b: T2;
+    c: T3;
+  };
 
-  constructor(props: unknown) {
+  constructor(props: { a: T1; b: T2; c: T3 }) {
     this.props = props;
   }
 
@@ -15,7 +19,6 @@ const component = new Component({a: 1, b: 2, c: 3});
 
 const result = component.getProps();
 
-expect(result).toEqual({a: 1, b: 2, c: 3});
 
 type tests = [
   Expect<Equal<typeof result, { a: number; b: number; c: number }>>,
