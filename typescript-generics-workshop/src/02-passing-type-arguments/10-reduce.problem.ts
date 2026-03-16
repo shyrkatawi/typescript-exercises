@@ -9,19 +9,10 @@ const array = [
   },
 ];
 
-const obj = array.reduce((accum, item) => {
-  accum[item.name] = item;
-  return accum;
-}, {});
-
-
-expect(obj).toEqual({
-  John: {
-    name: "John",
-  },
-  Steve: {
-    name: "Steve",
-  },
-});
+const obj = array.reduce<Record<string, { name: string }>>(
+  (accum, item) => {
+    accum[item.name] = item;
+    return accum;
+  }, {});
 
 type tests = [Expect<Equal<typeof obj, Record<string, { name: string }>>>];

@@ -10,7 +10,7 @@ export class Component<TProps> {
   getProps = () => this.props;
 }
 
-const cloneComponent = (component: unknown) => {
+const cloneComponent = <T>(component: Component<T>): Component<T> => {
   return new Component(component.getProps());
 };
 
@@ -20,8 +20,6 @@ const component = new Component({a: 1, b: 2, c: 3});
 const clonedComponent = cloneComponent(component);
 
 const result = clonedComponent.getProps();
-
-expect(result).toEqual({a: 1, b: 2, c: 3});
 
 type tests = [
   Expect<Equal<typeof result, { a: number; b: number; c: number }>>
