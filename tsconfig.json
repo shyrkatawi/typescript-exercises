@@ -97,6 +97,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "src"
+    "typescript-generics-workshop/src"
   ]
 }
