@@ -1,6 +1,9 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-export const concatenateFirstNameAndLastName = (user: unknown) => {
+export const concatenateFirstNameAndLastName = <T extends {
+  firstName: string;
+  lastName: string;
+}>(user: T): T & { fullName: string } => {
   return {
     ...user,
     fullName: `${user.firstName} ${user.lastName}`,
@@ -8,40 +11,30 @@ export const concatenateFirstNameAndLastName = (user: unknown) => {
 };
 
 
-const users = [
-  {
-    firstName: "Matt",
-    lastName: "Pocock",
-  },
-];
-
-const newUsers = users.map(concatenateFirstNameAndLastName);
-
-type tests = [
+const users1 = [{firstName: "Matt", lastName: "Pocock"}];
+const newUsers1 = users1.map(concatenateFirstNameAndLastName);
+type tests1 = [
   Expect<
     Equal<
-      typeof newUsers,
+      typeof newUsers1,
       Array<{ firstName: string; lastName: string } & { fullName: string }>
     >
   >,
 ];
 
 
-const users = [
+const users2 = [
   {
     id: 1,
     firstName: "Matt",
     lastName: "Pocock",
   },
 ];
-
-const newUsers = users.map(concatenateFirstNameAndLastName);
-
-
+const newUsers2 = users2.map(concatenateFirstNameAndLastName);
 type tests = [
   Expect<
     Equal<
-      typeof newUsers,
+      typeof newUsers2,
       Array<
         { id: number; firstName: string; lastName: string } & {
         fullName: string;
@@ -52,13 +45,13 @@ type tests = [
 ];
 
 
-const users = [
+const users3 = [
   {
     firstName: "Matt",
   },
 ];
 
-const newUsers = users.map(
+const newUsers3 = users3.map(
   // @ts-expect-error
   concatenateFirstNameAndLastName,
 );
