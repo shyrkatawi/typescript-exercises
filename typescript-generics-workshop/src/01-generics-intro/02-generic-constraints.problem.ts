@@ -1,6 +1,6 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-export const returnWhatIPassIn = <T>(t: T) => t;
+export const returnWhatIPassIn = <T extends string = string>(t: T): T => t;
 
 const a = returnWhatIPassIn("a");
 
