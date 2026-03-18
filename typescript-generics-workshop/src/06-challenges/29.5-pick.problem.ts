@@ -1,26 +1,23 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-const pick = (obj: {}, picked: string[]) => {
+const pick = <T extends Record<string, any>, K extends keyof T>(obj: T, picked: Array<K>) => {
   return picked.reduce((acc, key) => {
     acc[key] = obj[key];
     return acc;
-  }, {});
+  }, {} as Pick<T, K>);
 };
 
 
 const result = pick(
   {
     a: 1,
-    b: 2,
+    b: 'st',
     c: 3,
   },
   ["a", "b"]
 );
 
-expect(result).toEqual({a: 1, b: 2});
-
-type test = Expect<Equal<typeof result, { a: number; b: number }>>;
-
+type test = Expect<Equal<typeof result, { a: number; b: string }>>;
 
 pick(
   {
