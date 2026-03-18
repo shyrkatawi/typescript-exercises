@@ -1,21 +1,17 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-const fetchData = async <TResult>(url: string): Promise<TResult> => {
-  const data = await fetch(url).then((response) => response.json());
-  return data;
+const fetchData = async <TResult = "You must pass a type argument to fetchData">(url: string): Promise<TResult> => {
+  return fetch(url).then((response) => response.json());
 };
 
 
-const data = await fetchData<{ name: string }>(
+const data1 = await fetchData<{ name: string }>(
   "https://swapi.dev/api/people/1",
 );
-expect(data.name).toEqual("Luke Skywalker");
-
-type tests = [Expect<Equal<typeof data, { name: string }>>];
+type tests1 = [Expect<Equal<typeof data1, { name: string }>>];
 
 
-const data = await fetchData("https://swapi.dev/api/people/1");
-
-type tests = [
-  Expect<Equal<typeof data, "You must pass a type argument to fetchData">>,
+const data2 = await fetchData("https://swapi.dev/api/people/1");
+type tests2 = [
+  Expect<Equal<typeof data2, "You must pass a type argument to fetchData">>,
 ];

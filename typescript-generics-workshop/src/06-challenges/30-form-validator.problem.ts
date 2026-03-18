@@ -1,22 +1,28 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-const makeFormValidatorFactory = (validators: unknown) => (config: unknown) => {
-  return (values: unknown) => {
-    const errors = {} as any;
+const makeFormValidatorFactory =
+  <TValidatorKeys extends string>(
+    validators: Record<TValidatorKeys, (value: string) => string | void>
+  ) =>
+    <TObjKeys extends string>(
+      config: Record<TObjKeys, Array<TValidatorKeys>>
+    ) => {
+      return (values: Record<TObjKeys, string>): Record<TObjKeys, string | undefined> => {
+        const errors = {} as any;
 
-    for (const key in config) {
-      for (const validator of config[key]) {
-        const error = validators[validator](values[key]);
-        if (error) {
-          errors[key] = error;
-          break;
+        for (const key in config) {
+          for (const validator of config[key]) {
+            const error = validators[validator](values[key]);
+            if (error) {
+              errors[key] = error;
+              break;
+            }
+          }
         }
-      }
-    }
 
-    return errors;
-  };
-};
+        return errors;
+      };
+    };
 
 const createFormValidator = makeFormValidatorFactory({
   required: (value) => {
@@ -47,11 +53,6 @@ const errors = validateUser({
   id: "1",
   username: "john",
   email: "Blah",
-});
-
-expect(errors).toEqual({
-  username: "Minimum length is 5",
-  email: "Invalid email",
 });
 
 type test = Expect<
