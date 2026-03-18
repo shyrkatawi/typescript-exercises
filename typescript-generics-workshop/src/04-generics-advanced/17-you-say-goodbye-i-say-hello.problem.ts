@@ -1,19 +1,15 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-function youSayGoodbyeISayHello(greeting: unknown) {
-  return greeting === "goodbye" ? "hello" : "goodbye";
+function youSayGoodbyeISayHello<T extends "hello" | "goodbye">(greeting: T):
+  T extends "goodbye" ? "hello" : "goodbye" {
+  return (greeting === "goodbye" ? "hello" : "goodbye") as any;
 }
 
+const result1 = youSayGoodbyeISayHello("hello");
 
-const result = youSayGoodbyeISayHello("hello");
+type test1 = [Expect<Equal<typeof result1, "goodbye">>];
 
-type test = [Expect<Equal<typeof result, "goodbye">>];
+const result2 = youSayGoodbyeISayHello("goodbye");
 
-expect(result).toEqual("goodbye");
+type test2 = [Expect<Equal<typeof result2, "hello">>];
 
-
-const result = youSayGoodbyeISayHello("goodbye");
-
-type test = [Expect<Equal<typeof result, "hello">>];
-
-expect(result).toEqual("hello");

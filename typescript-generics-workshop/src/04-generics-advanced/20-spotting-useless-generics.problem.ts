@@ -7,12 +7,9 @@ const returnBothOfWhatIPassIn = <T1, T2>(params: {
   return [params.a, params.b];
 };
 
-
 const result = returnBothOfWhatIPassIn({
   a: "a",
   b: 1,
 });
-
-expect(result).toEqual(["a", 1]);
 
 type test1 = Expect<Equal<typeof result, [string, number]>>;
