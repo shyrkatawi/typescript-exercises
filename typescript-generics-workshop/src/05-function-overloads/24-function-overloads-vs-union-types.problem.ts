@@ -1,6 +1,9 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
-function runGenerator(generator: unknown) {
+type GeneratorFn<T> = () => T
+type GeneratorObj<T> = { run: GeneratorFn<T> }
+
+function runGenerator<T>(generator: GeneratorFn<T> | GeneratorObj<T>): T {
   if (typeof generator === "function") {
     return generator();
   }
@@ -8,17 +11,8 @@ function runGenerator(generator: unknown) {
 }
 
 
-const result = runGenerator({
-  run: () => "hello",
-});
+const result1 = runGenerator({run: () => "hello"});
+type test1 = Expect<Equal<typeof result1, string>>;
 
-expect(result).toBe("hello");
-
-type test1 = Expect<Equal<typeof result, string>>;
-
-
-const result = runGenerator(() => "hello");
-
-expect(result).toBe("hello");
-
-type test1 = Expect<Equal<typeof result, string>>;
+const result2 = runGenerator(() => "hello");
+type test2 = Expect<Equal<typeof result2, string>>;
