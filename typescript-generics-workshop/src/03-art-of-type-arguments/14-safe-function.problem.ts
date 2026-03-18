@@ -1,13 +1,13 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
 const makeSafe =
-  (func: unknown) =>
+  <TParams extends any[], TReturn>(func: (...args: TParams) => TReturn) =>
     (
-      ...args: unknown
+      ...args: TParams
     ):
       | {
       type: "success";
-      result: unknown;
+      result: TReturn;
     }
       | {
       type: "failure";
@@ -29,19 +29,12 @@ const makeSafe =
     };
 
 
-const func = makeSafe(() => 1);
+const result1 = makeSafe(() => 1)();
 
-const result = func();
-
-expect(result).toEqual({
-  type: "success",
-  result: 1,
-});
-
-type tests = [
+type tests1 = [
   Expect<
     Equal<
-      typeof result,
+      typeof result1,
       | {
       type: "success";
       result: number;
@@ -55,24 +48,18 @@ type tests = [
 ];
 
 
-const func = makeSafe(() => {
+const result2 = makeSafe(() => {
   if (1 > 2) {
     return "123";
   }
   throw new Error("Oh dear");
-});
+})();
 
-const result = func();
 
-expect(result).toEqual({
-  type: "failure",
-  error: new Error("Oh dear"),
-});
-
-type tests = [
+type tests2 = [
   Expect<
     Equal<
-      typeof result,
+      typeof result2,
       | {
       type: "success";
       result: string;

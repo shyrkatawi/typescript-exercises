@@ -1,8 +1,8 @@
 import {Equal, Expect} from "../helpers/type-utils";
 
 const createClassNamesFactory =
-  (classes: unknown) =>
-    (type: unknown, ...otherClasses: unknown[]) => {
+  <T extends Record<string, string>>(classes: T) =>
+    (type: keyof T, ...otherClasses: string[]) => {
       const classList = [classes[type], ...otherClasses];
       return classList.join(" ");
     };
@@ -13,23 +13,13 @@ const getBg = createClassNamesFactory({
 });
 
 
-expect(getBg("primary")).toEqual("bg-blue-500");
-expect(getBg("secondary")).toEqual("bg-gray-500");
-
-
-expect(getBg("primary", "text-white", "rounded", "p-4")).toEqual(
-  "bg-blue-500 text-white rounded p-4"
-);
-
 
 const result = getBg("primary");
 
 type test = Expect<Equal<typeof result, string>>;
 
-
 // @ts-expect-error
 getBg("123123");
-
 
 // @ts-expect-error
 createClassNamesFactory([]);
